@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>YouTube Playlist with Fake Progress (Plyr)</title>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<style>
+  body{margin:0;background:#0f1724;color:#e6eef8;font-family:Arial,Helvetica,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh}
+  .wrap{width:100%;max-width:960px;padding:20px}
+  .player{background:#0b1220;border-radius:12px;padding:14px;box-shadow:0 8px 30px rgba(2,6,23,.6)}
+  .videos{display:grid;grid-template-columns:1fr 320px;gap:12px}
+  @media (max-width: 768px){
+    .videos{grid-template-columns:1fr;}
+    .sidebar{border-left:none;border-top:1px solid rgba(255,255,255,.1)}
+  }
+  .main-video{position:relative;background:#000;border-radius:8px;overflow:hidden;width:100%;aspect-ratio:16/9;pointer-events:none;}
+  .controls{display:flex;align-items:center;gap:10px;padding:12px;flex-wrap:wrap}
+  .btn{background:#1e293b;border:none;padding:8px 12px;border-radius:8px;color:#e6eef8;cursor:pointer}
+  .btn.primary{background:#7c3aed;color:white}
+  .progress-wrap{flex:1;min-width:150px}
+  .fake-progress{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;position:relative}
+  .fake-progress .bar{position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#60a5fa)}
+  .time{min-width:72px;text-align:right;font-size:13px;color:#94a3b8}
+  .sidebar{padding:10px;border-left:1px solid rgba(255,255,255,.1)}
+  .thumb{display:flex;flex-direction:column;gap:8px}
+  .thumb button{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.03);background:transparent;color:#94a3b8;cursor:pointer;width:100%}
+  .thumb img{width:72px;height:44px;object-fit:cover;border-radius:6px}
+  .plyr__video-wrapper, .plyr__video-embed {border-radius: 8px;overflow:hidden;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="player">
+    <div class="videos">
+      <div>
+        <div class="main-video" id="videoContainer"></div>
+        <div class="controls">
+          <button id="back10Btn" class="btn">⏪ 10s</button>
+          <button id="playBtn" class="btn primary">Play</button>
+          <button id="pauseBtn" class="btn">Pause</button>
+          <button id="skip10Btn" class="btn">10s ⏩</button>
+          <div class="progress-wrap">
+            <div class="fake-progress" id="fakeProgress">
+              <div class="bar" id="progressBar"></div>
+            </div>
+          </div>
+          <div class="time" id="timeDisplay">0:00 / 0:00</div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="thumb">
+          <button data-id="3y5dU0vXcNQ"><img src="https://img.youtube.com/vi/3y5dU0vXcNQ/default.jpg"></button>
+          <button data-id="YmsV7wCUblU"><img src="https://img.youtube.com/vi/YmsV7wCUblU/default.jpg"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+<script>
+let plyrInstance = null;
+let progressBar = document.getElementById('progressBar');
+let timeDisplay = document.getElementById('timeDisplay');
+let fakeProgress = document.getElementById('fakeProgress');
+
+function fmtTime(sec){
+  sec = Math.floor(sec);
+  const m = Math.floor(sec/60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+document.querySelectorAll('.thumb button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.id;
+    document.getElementById('videoContainer').innerHTML = `
+      <div class="plyr__video-embed" id="player">
+        <iframe src="https://www.youtube.com/embed/${id}?iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&controls=0&showinfo=0" allowfullscreen allow="autoplay"></iframe>
+      </div>`;
+    plyrInstance = new Plyr('#player', {
+      controls: [],
+      keyboard: { focused: false, global: false }
+    });
+    plyrInstance.on('timeupdate', updateProgress);
+  });
+});
+
+document.getElementById('playBtn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.play();});
+document.getElementById('pauseBtn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.pause();});
+document.getElementById('skip10Btn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.currentTime += 10;});
+document.getElementById('back10Btn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.currentTime -= 10;});
+
+function updateProgress(){
+  if(plyrInstance && plyrInstance.duration){
+    const dur = plyrInstance.duration;
+    const cur = plyrInstance.currentTime;
+    progressBar.style.width = (cur/dur)*100 + '%';
+    timeDisplay.textContent = fmtTime(cur) + ' / ' + fmtTime(dur);
+  }
+}
+
+fakeProgress.addEventListener('click', e => {
+  if(plyrInstance){
+    const rect = fakeProgress.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    plyrInstance.currentTime = pct * plyrInstance.duration;
+  }
+});
+</script>
+</body>
+</html>
