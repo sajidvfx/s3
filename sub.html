@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start Learning</title>
+
+<script>
+function checkPassword() {
+    var password = prompt("Enter Password:");
+    if (password !== "king") {
+        alert("Incorrect Password!");
+        window.location.href = "about:blank";
+    }
+}
+checkPassword();
+</script>
+
+<style>
+    /* Dark theme base from video player style */
+    body {
+        margin: 0;
+        background: #0f1724;
+        color: #e6eef8;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    .wrap {
+        width: 100%;
+        max-width: 600px;
+        padding: 20px;
+        background: #0b1220;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(2,6,23,.6);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        line-height: 1.2;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .button {
+        background: #1e293b;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background 0.3s;
+        text-decoration: none;
+    }
+
+    .button:hover {
+        background: #7c3aed;
+    }
+
+    footer {
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #94a3b8;
+        text-align: center;
+    }
+
+    .elementor-heading-title {
+        line-height: 1;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Responsive design */
+    @media (max-width: 480px) {
+        .wrap {
+            max-width: 90%;
+            padding: 15px;
+        }
+        h1 {
+            font-size: 1.5em;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+    <h1>Start with Your Favourite Subject 📚</h1>
+    <div class="button-container">
+        <a href="math.html" class="button">Maths</a>
+        <a href="graphics.html" class="button">Graphics</a>
+        <a href="physics.html" class="button">Physics</a>
+        <a href="eipr.html" class="button">EIPR</a>
+        <a href="bec bee.html" class="button">BEE & BEC</a>
+        <a href="chem.html" class="button">Chemistry</a>
+        <a href="python.html" class="button">Python</a>
+    </div>
+</div>
+
+<footer>
+    <h3 class="elementor-heading-title elementor-size-default">
+        © 2025 sajidvfx. All Rights Reserved
+    </h3>
+</footer>
+
+</body>
+</html>
