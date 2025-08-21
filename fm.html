@@ -192,13 +192,6 @@ document.getElementById('playBtn').addEventListener('click', ()=>{if(plyrInstanc
 document.getElementById('pauseBtn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.pause();});
 document.getElementById('skip10Btn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.currentTime += 10;});
 document.getElementById('back10Btn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.currentTime -= 10;});
-
-<script>
-document.getElementById('speedSelect').addEventListener('change', function() {
-  player.setPlaybackRate(parseFloat(this.value));
-});
-</script>
-
   
 function updateProgress(){
   if(plyrInstance && plyrInstance.duration){
@@ -231,6 +224,7 @@ fakeProgress.addEventListener('click', e => {
 </script>
 </body>
 </html>
+
 
 
 
