@@ -211,6 +211,12 @@ fakeProgress.addEventListener('click', e => {
 });
 </script>
 <script>
+  const player = new Plyr('#my-video', {
+  controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
+  settings: ['speed'], // This adds speed control in the settings menu
+  speed: { selected: 1, options: [0.5, 1, 1.5, 2] }
+});
+
   const thumbs = document.querySelectorAll('.video-thumb');
   const player = document.getElementById('ytPlayer');
 
@@ -223,6 +229,7 @@ fakeProgress.addEventListener('click', e => {
 </script>
 </body>
 </html>
+
 
 
 
