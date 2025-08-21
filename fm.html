@@ -193,13 +193,6 @@ document.getElementById('pauseBtn').addEventListener('click', ()=>{if(plyrInstan
 document.getElementById('skip10Btn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.currentTime += 10;});
 document.getElementById('back10Btn').addEventListener('click', ()=>{if(plyrInstance) plyrInstance.currentTime -= 10;});
 
-<select id="speedSelect">
-  <option value="0.5">0.5x</option>
-  <option value="1" selected>1x</option>
-  <option value="1.5">1.5x</option>
-  <option value="2">2x</option>
-</select>
-
 <script>
 document.getElementById('speedSelect').addEventListener('change', function() {
   player.setPlaybackRate(parseFloat(this.value));
@@ -238,6 +231,7 @@ fakeProgress.addEventListener('click', e => {
 </script>
 </body>
 </html>
+
 
 
 
